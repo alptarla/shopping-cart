@@ -8,6 +8,16 @@ function createToken(payload) {
   });
 }
 
+async function getPayloadFromToken(headers) {
+  if (!headers.authorization) return;
+
+  const token = headers.authorization.split(" ")[1];
+  if (!token) return;
+
+  return jwt.verify(token, process.env.JWT_SECRET_KEY);
+}
+
 module.exports = {
   createToken,
+  getPayloadFromToken,
 };

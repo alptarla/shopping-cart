@@ -32,7 +32,8 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, _next) => {
-  res.json({ error: err.message });
+  console.log(err.status);
+  res.status(err.status || 500).json({ error: err.message });
 });
 
 module.exports = app;
