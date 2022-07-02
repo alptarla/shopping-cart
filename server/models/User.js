@@ -19,7 +19,7 @@ UserModel.pre("save", async function () {
 });
 
 UserModel.methods.checkPassword = function (password) {
-  return bcrypt.compareSync(this.password, password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 module.exports = mongoose.model("user", UserModel);
