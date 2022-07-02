@@ -8,6 +8,7 @@ const conenctDB = require("./utils/connectDB");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const createHttpError = require("http-errors");
 
 const app = express();
 
@@ -24,5 +25,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+
+app.use((req, res, next) => {
+  next(createHttpError(404));
+});
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, _next) => {
+  res.json({ error: err.message });
+});
 
 module.exports = app;
