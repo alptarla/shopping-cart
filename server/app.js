@@ -2,11 +2,18 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const dotenv = require("dotenv");
+
+const conenctDB = require("./utils/connectDB");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 
 const app = express();
+
+dotenv.config();
+
+conenctDB();
 
 app.use(logger("dev"));
 
