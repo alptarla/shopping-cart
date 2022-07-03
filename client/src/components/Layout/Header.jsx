@@ -1,4 +1,5 @@
-import { Container, Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -8,7 +9,18 @@ function Header() {
       bg="light"
     >
       <Container>
-        <Navbar.Brand>Shopping Cart</Navbar.Brand>
+        <Navbar.Brand
+          as={Link}
+          to="/"
+        >
+          Shopping Cart
+        </Navbar.Brand>
+        <Nav.Link
+          as={Link}
+          to="/login"
+        >
+          Login
+        </Nav.Link>
       </Container>
     </Navbar>
   );

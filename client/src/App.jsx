@@ -1,9 +1,10 @@
 import Layout from './components/Layout';
+import Router from './Router';
 
 function App() {
   return (
     <Layout>
-      <div className="h-100 text-center">Shopping Cart</div>
+      <Router />
     </Layout>
   );
 }
