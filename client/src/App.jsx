@@ -1,8 +1,10 @@
-import { Container } from 'react-bootstrap';
+import Layout from './components/Layout';
 
 function App() {
   return (
-    <Container className="text-primary fw-bold my-5">Shopping Cart</Container>
+    <Layout>
+      <div className="h-100 text-center">Shopping Cart</div>
+    </Layout>
   );
 }
 
