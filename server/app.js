@@ -3,6 +3,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 const conenctDB = require("./utils/connectDB");
 const createHttpError = require("http-errors");
@@ -13,6 +14,8 @@ const productRoutes = require("./routes/product");
 const cartRoutes = require("./routes/cart");
 
 const app = express();
+
+app.use(cors("http://localhost:3000"));
 
 dotenv.config();
 
