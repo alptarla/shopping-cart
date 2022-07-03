@@ -22,4 +22,4 @@ UserModel.methods.checkPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-module.exports = mongoose.model("user", UserModel);
+module.exports = mongoose.model("User", UserModel);
