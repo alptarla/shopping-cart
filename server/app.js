@@ -5,10 +5,11 @@ const logger = require("morgan");
 const dotenv = require("dotenv");
 
 const conenctDB = require("./utils/connectDB");
+const createHttpError = require("http-errors");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-const createHttpError = require("http-errors");
+const productRoutes = require("./routes/product");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/product", productRoutes);
 
 app.use((req, res, next) => {
   next(createHttpError(404));
