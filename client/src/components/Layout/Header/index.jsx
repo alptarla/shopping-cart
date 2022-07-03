@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function Header() {
@@ -19,7 +19,12 @@ function Header() {
           as={Link}
           to="/login"
         >
-          Login
+          <Button
+            variant="outline-warning"
+            className="fw-bold"
+          >
+            Login
+          </Button>
         </Nav.Link>
       </Container>
     </Navbar>

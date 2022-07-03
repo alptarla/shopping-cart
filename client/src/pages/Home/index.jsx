@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 import { AlertMessage, PageLoader } from '../../components/common';
+import { ProductList } from '../../components/product';
 import ProductService from '../../services/ProductService';
 
 function Home() {
@@ -20,7 +21,7 @@ function Home() {
       />
     );
 
-  return <div>{JSON.stringify(products)}</div>;
+  return <ProductList products={products} />;
 }
 
 export default Home;
