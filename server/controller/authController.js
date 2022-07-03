@@ -62,7 +62,7 @@ async function currentUser(req, res, next) {
 
     res.status(200).json({ user });
   } catch (error) {
-    next(createHttpError(500));
+    next(createHttpError(401));
   }
 }
 
