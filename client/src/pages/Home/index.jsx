@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { AlertMessage, PageLoader } from '../../components/common';
 import ProductService from '../../services/ProductService';
 
 function Home() {
@@ -6,10 +7,19 @@ function Home() {
     data: products,
     isLoading,
     isError,
+    error,
   } = useQuery('products', ProductService.getProducts);
 
-  if (isLoading) return <div>loading...</div>;
-  if (isError) return <div>Error occurred</div>;
+  if (isLoading) return <PageLoader />;
+
+  if (isError)
+    return (
+      <AlertMessage
+        message={error.message || 'Something went wrong'}
+        variant="danger"
+      />
+    );
+
   return <div>{JSON.stringify(products)}</div>;
 }
 
