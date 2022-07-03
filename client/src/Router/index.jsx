@@ -1,9 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Product from './pages/Product';
-import Profile from './pages/Profile';
-import Register from './pages/Register';
+import { Home, Login, Product, Profile, Register } from '../pages';
 
 function Router() {
   return (
