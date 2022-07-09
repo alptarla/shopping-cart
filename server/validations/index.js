@@ -5,14 +5,6 @@ const registerSchema = joi.object({
   lastName: joi.string().required(),
   email: joi.string().email().required(),
   password: joi.string().required(),
-  birthDate: joi.date().required(),
-  location: joi
-    .object()
-    .keys({
-      countryCode: joi.number().required(),
-      cityCode: joi.number().required(),
-    })
-    .required(),
 });
 
 const loginSchema = joi.object({
