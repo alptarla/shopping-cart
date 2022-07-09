@@ -1,11 +1,14 @@
 import { Layout } from './components/layout';
+import { UserProvider } from './context/UserContext';
 import Router from './Router';
 
 function App() {
   return (
-    <Layout>
-      <Router />
-    </Layout>
+    <UserProvider>
+      <Layout>
+        <Router />
+      </Layout>
+    </UserProvider>
   );
 }
 

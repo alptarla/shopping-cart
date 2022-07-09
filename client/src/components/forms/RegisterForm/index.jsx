@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, Col, Row, Stack } from 'react-bootstrap';
+import { Button, Col, Row, Spinner, Stack } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import RegisterFormSchema from './validations';
 import CustomInput from '../../elements/CustomInput';
 import { Link } from 'react-router-dom';
 
-function RegisterForm({ onSubmit, defaultValues }) {
+function RegisterForm({ onSubmit, defaultValues, isLoading = false }) {
   const {
     control,
     formState: { errors },
@@ -107,7 +107,14 @@ function RegisterForm({ onSubmit, defaultValues }) {
               type="submit"
               variant="warning"
             >
-              Register
+              {isLoading && (
+                <Spinner
+                  size="sm"
+                  className="me-2"
+                  animation="border"
+                />
+              )}
+              <span>Register</span>
             </Button>
             <span>
               <small className="me-1">Do you have an account?</small>
@@ -125,6 +132,7 @@ function RegisterForm({ onSubmit, defaultValues }) {
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   defaultValues: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 export default RegisterForm;

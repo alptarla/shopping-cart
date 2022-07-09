@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, Col, Row, Stack } from 'react-bootstrap';
+import { Button, Col, Row, Spinner, Stack } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import LoginFormSchema from './validations';
 import CustomInput from '../../elements/CustomInput';
 import { Link } from 'react-router-dom';
 
-function LoginForm({ onSubmit, defaultValues }) {
+function LoginForm({ onSubmit, defaultValues, isLoading = false }) {
   const {
     control,
     formState: { errors },
@@ -65,7 +65,14 @@ function LoginForm({ onSubmit, defaultValues }) {
               type="submit"
               variant="warning"
             >
-              Login
+              {isLoading && (
+                <Spinner
+                  size="sm"
+                  className="me-2"
+                  animation="border"
+                />
+              )}
+              <span>Login</span>
             </Button>
             <span>
               <small className="me-1">{`Don't you have an account?`}</small>
@@ -83,6 +90,7 @@ function LoginForm({ onSubmit, defaultValues }) {
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   defaultValues: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 export default LoginForm;
