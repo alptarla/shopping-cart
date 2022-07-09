@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import DividerTitle from '../../components/common/DividerTitle';
 import { RegisterForm } from '../../components/forms';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import UserService from '../../services/UserService';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,8 @@ const REGISTER_ERROR_MESSAGE =
   'An error occurred while registering user information!';
 
 function Register() {
+  const queryClient = useQueryClient();
+
   const { mutate: userRegister, isLoading } = useMutation(
     'userRegister',
     UserService.userRegister
@@ -30,6 +32,9 @@ function Register() {
     userRegister(values, {
       onSuccess(token) {
         localStorage.setItem(TOKEN_STORAGE_KEY, token);
+
+        queryClient.fetchQuery('currentUser');
+
         navigate('/');
       },
       onError() {

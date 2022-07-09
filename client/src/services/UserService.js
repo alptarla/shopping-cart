@@ -15,7 +15,16 @@ async function userRegister({ email, password, firstName, lastName }) {
   return data.token;
 }
 
+async function userLogin({ email, password }) {
+  const { data } = await apiClient.post('/auth/login', {
+    email,
+    password,
+  });
+  return data.token;
+}
+
 export default {
-  userRegister,
   fetchCurrentUser,
+  userRegister,
+  userLogin,
 };

@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import { Badge, Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
+
+const CART_COUNT = 3;
 
 function Header() {
   const user = useUser();
@@ -22,23 +24,48 @@ function Header() {
           as={Link}
           to="/"
         >
-          Shopping Cart
+          <i className="bi bi-shop fs-2 me-2" />
+          <span>Shopping Cart</span>
         </Navbar.Brand>
-        <Nav.Link
-          as={Link}
-          to="/login"
-        >
+        <Nav>
           {username ? (
-            <Nav.Item>{username}</Nav.Item>
+            <>
+              <Nav.Link
+                as={Link}
+                to="/profile"
+                className="text-dark"
+              >
+                <i className="bi bi-person me-1" />
+                <span>{username}</span>
+              </Nav.Link>
+              <Nav.Link
+                as={Button}
+                variant="link"
+                className="position-relative"
+              >
+                <Badge
+                  bg="warning"
+                  className="position-absolute top-0 end-0 p-1"
+                >
+                  {CART_COUNT}
+                </Badge>
+                <i className="bi bi-cart" />
+              </Nav.Link>
+            </>
           ) : (
-            <Button
-              variant="outline-warning"
-              className="fw-bold"
+            <Nav.Link
+              as={Link}
+              to="/login"
             >
-              Login
-            </Button>
+              <Button
+                variant="outline-warning"
+                className="fw-bold"
+              >
+                Login
+              </Button>
+            </Nav.Link>
           )}
-        </Nav.Link>
+        </Nav>
       </Container>
     </Navbar>
   );
