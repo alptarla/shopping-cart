@@ -1,7 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 import { Home, Login, Product, Profile, Register } from '../pages';
+import PrivateRoute from './PrivateRoute';
 
 function Router() {
+  const { data: user } = useUser();
+
   return (
     <Routes>
       <Route
@@ -10,7 +14,14 @@ function Router() {
       />
       <Route
         path="/profile"
-        element={<Profile />}
+        element={
+          <PrivateRoute
+            isNext={!!user}
+            redirectPath="/login"
+          >
+            <Profile />
+          </PrivateRoute>
+        }
       />
       <Route
         path="/product/:id"
@@ -18,11 +29,25 @@ function Router() {
       />
       <Route
         path="/login"
-        element={<Login />}
+        element={
+          <PrivateRoute
+            isNext={!user}
+            redirectPath="/"
+          >
+            <Login />
+          </PrivateRoute>
+        }
       />
       <Route
         path="/register"
-        element={<Register />}
+        element={
+          <PrivateRoute
+            isNext={!user}
+            redirectPath="/"
+          >
+            <Register />
+          </PrivateRoute>
+        }
       />
     </Routes>
   );

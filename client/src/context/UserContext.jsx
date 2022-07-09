@@ -2,7 +2,6 @@ import { createContext, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { TOKEN_STORAGE_KEY } from '../constants';
 import PropTypes from 'prop-types';
-import StorageService from '../services/StorageService';
 import UserService from '../services/UserService';
 
 export const UserContext = createContext();
@@ -16,7 +15,7 @@ export function UserProvider({ children }) {
 
   const value = {
     ...userQuery,
-    token: StorageService.get(TOKEN_STORAGE_KEY),
+    token: localStorage.getItem(TOKEN_STORAGE_KEY),
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
