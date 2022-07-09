@@ -15,7 +15,8 @@ function Header() {
 
   return (
     <Navbar
-      className="h-100 border-bottom shadow-sm"
+      className="h-100 border-bottom shadow-sm position-sticky top-0"
+      style={{ zIndex: '1020' }}
       variant="light"
       bg="light"
     >
