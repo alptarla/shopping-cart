@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { Badge, Button, Card } from 'react-bootstrap';
+import { usdFormatter } from '../../../utils/currency';
 
 function ProductCard({ product }) {
+  const price = useMemo(() => {
+    return usdFormatter(product.price);
+  }, [product.price]);
+
   return (
     <Card
       style={{ maxWidth: '18rem' }}
@@ -26,7 +32,7 @@ function ProductCard({ product }) {
         >
           {product.title}
         </Card.Title>
-        <Card.Text className="text-muted">{product.price}</Card.Text>
+        <Card.Text className="text-muted">{price}</Card.Text>
         <Button
           variant="secondary"
           className="w-100 fw-bold"
