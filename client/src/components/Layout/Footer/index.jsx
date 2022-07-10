@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer className="bg-light border-top">
       <Container className="h-100 d-flex align-items-center">
-        <p className="text-muted fw-bold">Shopping Cart &copy; 2022</p>
+        <p className="text-muted fw-bold m-0">Shopping Cart &copy; 2022</p>
       </Container>
     </footer>
   );
