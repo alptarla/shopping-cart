@@ -1,5 +1,13 @@
 import { useMemo } from 'react';
-import { Badge, Button, Container, Nav, Navbar } from 'react-bootstrap';
+import {
+  Badge,
+  Button,
+  Container,
+  Dropdown,
+  Nav,
+  Navbar,
+  Stack,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
 
@@ -12,6 +20,10 @@ function Header() {
     if (!user.data) return;
     return `${user.data.firstName} ${user.data.lastName}`;
   }, [user]);
+
+  const handleLogout = () => {
+    // TODO: logout user
+  };
 
   return (
     <Navbar
@@ -31,14 +43,37 @@ function Header() {
         <Nav>
           {username ? (
             <>
-              <Nav.Link
-                as={Link}
-                to="/profile"
-                className="text-dark"
-              >
-                <i className="bi bi-person me-1" />
-                <span>{username}</span>
-              </Nav.Link>
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="text"
+                  id="dropdown-user"
+                >
+                  {username}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    as={Link}
+                    to="/profile"
+                  >
+                    <Stack
+                      direction="horizontal"
+                      gap={1}
+                    >
+                      <i className="bi bi-person" />
+                      <span>Profile</span>
+                    </Stack>
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handleLogout}>
+                    <Stack
+                      direction="horizontal"
+                      gap={1}
+                    >
+                      <i className="bi bi-box-arrow-right" />
+                      <span>Logout</span>
+                    </Stack>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               <Nav.Link
                 as={Button}
                 variant="link"
