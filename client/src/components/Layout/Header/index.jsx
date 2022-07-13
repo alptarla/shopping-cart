@@ -21,10 +21,6 @@ function Header() {
     return `${user.data.firstName} ${user.data.lastName}`;
   }, [user]);
 
-  const handleLogout = () => {
-    // TODO: logout user
-  };
-
   return (
     <Navbar
       className="h-100 border-bottom shadow-sm position-sticky top-0"
@@ -63,7 +59,7 @@ function Header() {
                       <span>Profile</span>
                     </Stack>
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={handleLogout}>
+                  <Dropdown.Item onClick={user.logout}>
                     <Stack
                       direction="horizontal"
                       gap={1}
