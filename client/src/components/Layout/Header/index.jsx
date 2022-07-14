@@ -8,13 +8,14 @@ import {
   Navbar,
   Stack,
 } from 'react-bootstrap';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
-
-const CART_COUNT = 3;
+import CartService from '../../../services/CartService';
 
 function Header() {
   const user = useUser();
+  const { data: cart } = useQuery('cart', CartService.fetchCart);
 
   const username = useMemo(() => {
     if (!user.data) return;
@@ -75,12 +76,14 @@ function Header() {
                 variant="link"
                 className="position-relative"
               >
-                <Badge
-                  bg="warning"
-                  className="position-absolute top-0 end-0 p-1"
-                >
-                  {CART_COUNT}
-                </Badge>
+                {!!cart?.products?.length && (
+                  <Badge
+                    bg="warning"
+                    className="position-absolute top-0 end-0 p-1"
+                  >
+                    {cart.products.length}
+                  </Badge>
+                )}
                 <i className="bi bi-cart" />
               </Nav.Link>
             </>

@@ -3,10 +3,14 @@ import { useMemo } from 'react';
 import { Badge, Button, Card } from 'react-bootstrap';
 import { usdFormatter } from '../../../utils/currency';
 
-function ProductCard({ product }) {
+function ProductCard({ product, onAddToCart }) {
   const price = useMemo(() => {
     return usdFormatter(product.price);
   }, [product.price]);
+
+  const handleAddToCart = () => {
+    onAddToCart(product);
+  };
 
   return (
     <Card
@@ -36,6 +40,7 @@ function ProductCard({ product }) {
         <Button
           variant="secondary"
           className="w-100 fw-bold"
+          onClick={handleAddToCart}
         >
           Add To Cart
         </Button>
@@ -46,6 +51,7 @@ function ProductCard({ product }) {
 
 ProductCard.propTypes = {
   product: PropTypes.object.isRequired,
+  onAddToCart: PropTypes.func.isRequired,
 };
 
 export default ProductCard;
