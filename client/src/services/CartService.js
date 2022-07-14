@@ -9,4 +9,12 @@ async function fetchCart() {
   return data.cart;
 }
 
-export default { addProductToCart, fetchCart };
+async function removeProductFromCart(productId) {
+  return apiClient.delete(`/cart/${productId}`);
+}
+
+export default {
+  addProductToCart,
+  fetchCart,
+  removeProductFromCart,
+};
