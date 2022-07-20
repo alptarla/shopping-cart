@@ -4,6 +4,12 @@ import CartItem from './CartItem';
 import CartService from '../../../../services/CartService';
 import { useMutation, useQueryClient } from 'react-query';
 import DividerTitle from '../../../common/DividerTitle';
+import CartTotal from './CartTotal';
+import { useMemo } from 'react';
+import { usdFormatter } from '../../../../utils/currency';
+import AlertMessage from '../../../common/AlertMessage';
+
+const TAX = 12;
 
 function ShoppingCartCanvas({ isShow = false, onHide, products = [] }) {
   const queryClient = useQueryClient();
@@ -16,6 +22,26 @@ function ShoppingCartCanvas({ isShow = false, onHide, products = [] }) {
     await removeProductFromCart(product._id);
     queryClient.invalidateQueries('cart');
   };
+
+  const handleCheckout = () => {
+    // show spinner and success message as modal
+    // reset user cart
+    // close cart canvas
+    onHide();
+  };
+
+  const { price, tax, total } = useMemo(() => {
+    const productPricesArr = products.map((item) => {
+      return item.product.price * item.quantity;
+    });
+    const price = productPricesArr.reduce((acc, curr) => acc + curr, 0);
+
+    return {
+      price: usdFormatter(price),
+      tax: usdFormatter(TAX),
+      total: usdFormatter(price + TAX),
+    };
+  }, [products]);
 
   return (
     <Offcanvas
@@ -32,20 +58,33 @@ function ShoppingCartCanvas({ isShow = false, onHide, products = [] }) {
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-        <Row className="g-3">
-          {products.map((item, index) => (
-            <Col
-              lg={12}
-              key={index}
-            >
-              <CartItem
-                item={item}
-                onRemoveItem={handleRemoveCartItem}
-              />
-            </Col>
-          ))}
-        </Row>
+        {products.length ? (
+          <Row className="g-3">
+            {products.map((item, index) => (
+              <Col
+                lg={12}
+                key={index}
+              >
+                <CartItem
+                  item={item}
+                  onRemoveItem={handleRemoveCartItem}
+                />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <AlertMessage message="There are no items in your cart" />
+        )}
       </Offcanvas.Body>
+
+      {!!products.length && (
+        <CartTotal
+          price={price}
+          total={total}
+          tax={tax}
+          onCheckout={handleCheckout}
+        />
+      )}
     </Offcanvas>
   );
 }
