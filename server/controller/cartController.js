@@ -105,8 +105,25 @@ async function addProductToCart(req, res, next) {
   }
 }
 
+async function clearCart(req, res, next) {
+  try {
+    const cart = await Cart.findOne({ user: req.userId });
+    if (!cart) return next(createHttpError(404));
+
+    cart.products = [];
+    await cart.save();
+
+    console.log("cart", cart);
+
+    res.sendStatus(200);
+  } catch (error) {
+    next(createHttpError(500));
+  }
+}
+
 module.exports = {
   getCart,
   addProductToCart,
   removeProductFromCart,
+  clearCart,
 };
