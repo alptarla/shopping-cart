@@ -8,14 +8,54 @@ import CartTotal from './CartTotal';
 import { useMemo } from 'react';
 import { usdFormatter } from '../../../../utils/currency';
 import AlertMessage from '../../../common/AlertMessage';
+import { useCallback } from 'react';
 
 const TAX = 12;
 
 function ShoppingCartCanvas({ isShow = false, onHide, products = [] }) {
   const queryClient = useQueryClient();
+
+  // ** optimistic update
+  const handleRemoveCartItemMutate = useCallback(async (productId) => {
+    await queryClient.cancelQueries('cart');
+
+    const previousCart = queryClient.getQueryData('cart');
+
+    queryClient.setQueryData('cart', (old) => {
+      const existingProduct = old.products.find((item) => {
+        return item.product._id === productId;
+      });
+
+      if (existingProduct.quantity > 1) {
+        existingProduct.quantity--;
+      } else {
+        old.products = old.products.filter((item) => {
+          return item.product._id !== productId;
+        });
+      }
+
+      return old;
+    });
+
+    return { previousCart };
+  }, []);
+
+  const handleRemoveCartItemError = useCallback((err, newCart, context) => {
+    queryClient.setQueryData('cart', context.previousCart);
+  }, []);
+
+  const handleRemoveCartItemSettled = useCallback(() => {
+    queryClient.invalidateQueries('cart');
+  }, []);
+
   const { mutateAsync: removeProductFromCart } = useMutation(
     'removeCartItem',
-    CartService.removeProductFromCart
+    CartService.removeProductFromCart,
+    {
+      onMutate: handleRemoveCartItemMutate,
+      onError: handleRemoveCartItemError,
+      onSettled: handleRemoveCartItemSettled,
+    }
   );
 
   const { mutateAsync: clearCart, isLoading: isCartClearLoading } = useMutation(
