@@ -13,8 +13,13 @@ async function removeProductFromCart(productId) {
   return apiClient.delete(`/cart/${productId}`);
 }
 
+async function clearCart() {
+  return apiClient.delete('/cart');
+}
+
 export default {
   addProductToCart,
   fetchCart,
   removeProductFromCart,
+  clearCart,
 };

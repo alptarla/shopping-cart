@@ -18,15 +18,19 @@ function ShoppingCartCanvas({ isShow = false, onHide, products = [] }) {
     CartService.removeProductFromCart
   );
 
+  const { mutateAsync: clearCart, isLoading: isCartClearLoading } = useMutation(
+    'clearCart',
+    CartService.clearCart
+  );
+
   const handleRemoveCartItem = async ({ product }) => {
     await removeProductFromCart(product._id);
     queryClient.invalidateQueries('cart');
   };
 
-  const handleCheckout = () => {
-    // show spinner and success message as modal
-    // reset user cart
-    // close cart canvas
+  const handleCheckout = async () => {
+    await clearCart();
+    queryClient.invalidateQueries('cart');
     onHide();
   };
 
@@ -83,6 +87,7 @@ function ShoppingCartCanvas({ isShow = false, onHide, products = [] }) {
           total={total}
           tax={tax}
           onCheckout={handleCheckout}
+          isLoading={isCartClearLoading}
         />
       )}
     </Offcanvas>

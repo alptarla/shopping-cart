@@ -1,8 +1,8 @@
-import { Button, ListGroup, Stack } from 'react-bootstrap';
+import { Button, ListGroup, Spinner, Stack } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 
-function CartTotal({ price, tax, total, onCheckout }) {
+function CartTotal({ price, tax, total, onCheckout, isLoading = false }) {
   const items = useMemo(() => {
     return [
       { label: 'Price', value: price },
@@ -33,7 +33,19 @@ function CartTotal({ price, tax, total, onCheckout }) {
           className="w-100"
           onClick={onCheckout}
         >
-          Checkout
+          <Stack
+            direction="horizontal"
+            gap={2}
+            className="justify-content-center"
+          >
+            {isLoading && (
+              <Spinner
+                animation="border"
+                size="sm"
+              />
+            )}
+            <span>Checkout</span>
+          </Stack>
         </Button>
       </ListGroup.Item>
     </ListGroup>
@@ -45,6 +57,7 @@ CartTotal.propTypes = {
   tax: PropTypes.string.isRequired,
   total: PropTypes.string.isRequired,
   onCheckout: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default CartTotal;
