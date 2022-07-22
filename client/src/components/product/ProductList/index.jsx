@@ -4,6 +4,8 @@ import ProductCard from '../ProductCard';
 import { useMutation, useQueryClient } from 'react-query';
 import CartService from '../../../services/CartService';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { TOKEN_STORAGE_KEY } from '../../../constants';
 
 function ProductList({ products = [] }) {
   const queryClient = useQueryClient();
@@ -57,7 +59,14 @@ function ProductList({ products = [] }) {
     }
   );
 
+  const navigate = useNavigate();
+
   const handleAddToCart = async (product) => {
+    if (!localStorage.getItem(TOKEN_STORAGE_KEY)) {
+      navigate('/login');
+      return;
+    }
+
     await addProductToCart(product._id);
   };
 
